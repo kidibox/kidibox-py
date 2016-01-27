@@ -13,7 +13,7 @@ class TorrentsApiMixin(object):
 
     @requires_authentication
     def create(self, link):
-        return self._post('/torrents', json={
+        return self._post('/torrents/link', json={
             'link': link,
         }).json()
 

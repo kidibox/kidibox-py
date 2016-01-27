@@ -39,7 +39,7 @@ class TestSession(kidibox.session.Session):
             return TestResponse({'token': 'xxx'})
         elif url in [
                     'foobar.com/register',
-                    'foobar.com/torrents',
+                    'foobar.com/torrents/link',
                 ]:
             return TestResponse(kwargs['json'])
         else:
