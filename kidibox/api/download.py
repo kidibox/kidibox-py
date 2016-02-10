@@ -8,7 +8,7 @@ re_filename = re.compile(r"filename=(.+)")
 
 class DownloadApiMixin(object):
     def download(self, token, **kwargs):
-        response = self._get('/download/{0}'.format(token))
+        response = self._get('/download/{0}'.format(token), stream=True)
         return (
             re_filename.search(
                 response.headers['content-disposition']).group(1),
