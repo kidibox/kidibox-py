@@ -4,7 +4,7 @@ from kidibox.client import Client
 
 
 __author__ = 'Cecile Tonglet'
-__version__ = '0.1.0'
+__version__ = '0.1.2'
 
 
 def set_stream_logger(
