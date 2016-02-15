@@ -6,16 +6,9 @@ import kidibox
 class TestResponse(object):
     def __init__(self, data):
         self.data = data
-        self.content = bytes(str(data), 'utf-8')
-        self.headers = {
-            'content-disposition': 'attachment; filename=ok',
-        }
 
     def json(self):
         return self.data
-
-    def iter_content(self):
-        return iter([self.content])
 
 
 class TestSession(kidibox.session.Session):
@@ -26,8 +19,6 @@ class TestSession(kidibox.session.Session):
                     'foobar.com/torrents/1/files/0/token',
                 ]:
             return TestResponse({'test': 'ok'})
-        elif url == 'foobar.com/download/xxx':
-            return TestResponse('ok')
         else:
             return TestResponse({
                 'test': 'failed',
@@ -98,10 +89,3 @@ class ClientTestCase(unittest.TestCase):
         client.authenticate()
         result = client.get_token(1, 0)
         self.assertEqual(result, {'test': 'ok'})
-
-    def test_download(self):
-        client = TestClient("foobar.com", "foo", "bar")
-        client.authenticate()
-        filename, content_it = client.download('xxx')
-        self.assertEqual(next(content_it), b'ok')
-        self.assertEqual(filename, "ok")

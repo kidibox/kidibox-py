@@ -1,3 +1,4 @@
+import contextlib
 import os
 import time
 import unittest
@@ -77,7 +78,17 @@ class ClientTestCase(unittest.TestCase):
     def test_60_download(self):
         if not hasattr(self, 'token'):
             self.skipTest("token not available")
-        filename, content_it = self.client.download(self.token)
-        self.assertIsInstance(filename, str)
-        content = b''.join(content_it)
-        self.assertNotEqual(content, b'')
+        with contextlib.closing(self.client.download(self.token)) as fh:
+            self.assertNotEqual(fh.read(), b'')
+
+    def test_70_save(self):
+        if not hasattr(self, 'token'):
+            self.skipTest("token not available")
+        filename = self.client.save(self.token)
+        with open(filename, 'rb+') as fh:
+            self.assertNotEqual(fh.read(), b'')
+            length = fh.tell()
+            fh.truncate(1)
+        self.client.save(self.token)
+        with open(filename, 'ab') as fh:
+            self.assertEqual(fh.tell(), length)
