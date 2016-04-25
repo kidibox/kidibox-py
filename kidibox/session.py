@@ -37,3 +37,10 @@ class Session(requests.Session):
         response = super(Session, self).post(url, **kwargs)
         self.raise_for_status(response)
         return response
+
+    def delete(self, url, **kwargs):
+        logger.debug(
+            "Making DELETE request for %s (verify=%s)", url, self.verify)
+        response = super(Session, self).delete(url, **kwargs)
+        self.raise_for_status(response)
+        return response

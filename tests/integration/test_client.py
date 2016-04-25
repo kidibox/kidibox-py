@@ -92,3 +92,9 @@ class ClientTestCase(unittest.TestCase):
         self.client.save(self.token)
         with open(filename, 'ab') as fh:
             self.assertEqual(fh.tell(), length)
+
+    def test_90_remove(self):
+        if not hasattr(self, 'torrent_id'):
+            self.skipTest("torrent not loaded")
+        result = self.client.remove(self.torrent_id)
+        self.assertIn('id', result)

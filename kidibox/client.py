@@ -35,5 +35,8 @@ class Client(api.AuthApiMixin, api.TorrentsApiMixin, api.DownloadApiMixin):
     def _post(self, path, **kwargs):
         return self._make_request('post', path, **kwargs)
 
+    def _delete(self, path, **kwargs):
+        return self._make_request('delete', path, **kwargs)
+
     def is_authenticated(self):
         return self.session.is_authenticated()

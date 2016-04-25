@@ -39,6 +39,17 @@ class TestSession(kidibox.session.Session):
                 'url': url,
             })
 
+    def delete(self, url, **kwargs):
+        if url in [
+                    'foobar.com/torrents/1',
+                ]:
+            return TestResponse({'test': 'ok'})
+        else:
+            return TestResponse({
+                'test': 'failed',
+                'url': url,
+            })
+
 
 class TestClient(kidibox.client.Client):
     session_class = TestSession
@@ -88,4 +99,10 @@ class ClientTestCase(unittest.TestCase):
         client = TestClient("foobar.com", "foo", "bar")
         client.authenticate()
         result = client.get_token(1, 0)
+        self.assertEqual(result, {'test': 'ok'})
+
+    def test_remove(self):
+        client = TestClient("foobar.com", "foo", "bar")
+        client.authenticate()
+        result = client.remove(1)
         self.assertEqual(result, {'test': 'ok'})

@@ -25,3 +25,7 @@ class TorrentsApiMixin(object):
     def get_token(self, id, file_index):
         return self._get(
             '/torrents/{0}/files/{1}/token'.format(id, file_index)).json()
+
+    @requires_authentication
+    def remove(self, id):
+        return self._delete('/torrents/{0}'.format(id)).json()
